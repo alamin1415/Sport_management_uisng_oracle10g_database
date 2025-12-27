@@ -1,0 +1,1399 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIUB Sports Portal - Dashboard</title>
+    <link rel="icon" type="image/svg+xml" href="images/logo.svg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9fafb;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            border: 2px solid #d1d5db;
+            border-radius: 8px;
+            margin: 16px;
+            margin-bottom: 8px;
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo-img {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+        }
+
+        .logo-text h1 {
+            color: #1e3a8a;
+            font-size: 40px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .logo-text p {
+            color: #6b7280;
+            font-size: 12px;
+            margin-top: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-left: 32px;
+        }
+
+        .nav-link {
+            color: #3b82f6;
+            font-size: 14px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .welcome-text {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .icon-btn {
+            position: relative;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .icon-btn:hover {
+            background: #f3f4f6;
+        }
+
+        .icon-btn svg {
+            width: 20px;
+            height: 20px;
+            color: #6b7280;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: #ef4444;
+            color: white;
+            font-size: 10px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logout-btn {
+            cursor: pointer;
+        }
+
+        /* Main Layout */
+        .main-container {
+            display: flex;
+            gap: 16px;
+            padding: 0 16px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 224px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .sidebar-btn {
+            width: 100%;
+            background: #1e40af;
+            color: white;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: not-allowed;
+            transition: background 0.2s;
+        }
+
+        .sidebar-btn:hover {
+            background: #1e3a8a;
+        }
+
+        .sidebar-btn-content {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sidebar-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Content Area */
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Announcement Box */
+        .announcement {
+            background: #dbeafe;
+            border: 1px solid #93c5fd;
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .announcement p {
+            font-size: 14px;
+            color: #1e3a8a;
+            line-height: 1.6;
+        }
+
+        /* Player Info Card */
+        .player-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .edit-btn, .save-btn, .cancel-btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .edit-btn {
+            background: white;
+            border: 1px solid #d1d5db;
+            color: #374151;
+        }
+
+        .edit-btn:hover {
+            background: #f9fafb;
+        }
+
+        .save-btn {
+            background: #1e40af;
+            border: none;
+            color: white;
+        }
+
+        .save-btn:hover {
+            background: #1e3a8a;
+        }
+
+        .cancel-btn {
+            background: white;
+            border: 1px solid #d1d5db;
+            color: #374151;
+            margin-left: 8px;
+        }
+
+        .cancel-btn:hover {
+            background: #f9fafb;
+        }
+
+        .player-info-grid {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 8px;
+            padding: 16px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .info-field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-label {
+            font-size: 14px;
+            color: #374151;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .info-value {
+            font-size: 14px;
+            color: #1f2937;
+        }
+
+        .info-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            background: white;
+        }
+
+        .info-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        .info-input:disabled {
+            background: #f3f4f6;
+            cursor: not-allowed;
+        }
+
+        .locked-badge {
+            display: none;
+            background: #3b82f6;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .editable-badge {
+            display: none;
+            background: #10b981;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .editing .locked-badge,
+        .editing .editable-badge {
+            display: inline-block;
+        }
+
+        /* Warning Box */
+        .warning-box {
+            background: #fef3c7;
+            border: 1px solid #fde047;
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .warning-box p {
+            font-size: 14px;
+            color: #374151;
+        }
+
+        /* Action Button */
+        .action-button {
+            display: flex;
+            justify-content: center;
+            padding: 16px 0;
+        }
+
+        .disabled-btn {
+            background: #fca5a5;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: not-allowed;
+        }
+
+        .active-registration-btn {
+            background: #ef4444;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .active-registration-btn:hover {
+            background: #dc2626;
+        }
+
+        /* Schedule Card */
+        .schedule-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .schedule-header {
+            background: #1d4ed8;
+            color: white;
+            padding: 12px 16px;
+        }
+
+        .schedule-header h2 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .schedule-body {
+            padding: 16px;
+        }
+
+        .schedule-row {
+            display: flex;
+            gap: 16px;
+            padding: 8px 0;
+        }
+
+        .schedule-day {
+            width: 96px;
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .schedule-info {
+            flex: 1;
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .alert {
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            border: 1px solid #6ee7b7;
+            color: #065f46;
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            border: 1px solid #fca5a5;
+            color: #991b1b;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Welcome Screen */
+        .welcome-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .welcome-content {
+            text-align: center;
+            color: white;
+            animation: slideUp 0.8s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .welcome-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .welcome-title {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .welcome-message {
+            font-size: 24px;
+            opacity: 0.9;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 700px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            font-size: 22px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .modal-body {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+
+        .tournament-item {
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: white;
+        }
+
+        .tournament-title {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+
+        .tournament-deadline {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+
+        .game-list {
+            margin-top: 10px;
+        }
+
+        .game-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .game-item:last-child {
+            border-bottom: none;
+        }
+
+        .game-info {
+            flex: 1;
+        }
+
+        .game-name {
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .game-category {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .register-game-btn {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .register-game-btn:hover {
+            background: #059669;
+        }
+
+        .register-game-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+        }
+
+        .btn-cancel {
+            padding: 10px 25px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid #d1d5db;
+            background: #f9fafb;
+            color: #374151;
+        }
+
+        .btn-cancel:hover {
+            background: #f3f4f6;
+        }
+
+        /* Tournament Card Styles */
+        .tournament-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .tournament-header {
+            padding: 16px;
+            background: #1d4ed8;
+            color: white;
+        }
+
+        .tournament-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0 0 4px 0;
+        }
+
+        .tournament-deadline {
+            font-size: 13px;
+            opacity: 0.9;
+            margin: 0;
+        }
+
+        .tournament-body {
+            padding: 16px;
+        }
+
+        .tournament-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            background: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #9ca3af;
+            font-size: 14px;
+        }
+
+        .tournament-description {
+            margin: 12px 0;
+            color: #6b7280;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .tournament-games {
+            margin: 16px 0;
+        }
+
+        .tournament-games-title {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .game-item-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .game-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .game-item:last-child {
+            border-bottom: none;
+        }
+
+        .game-info {
+            flex: 1;
+        }
+
+        .game-name {
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .game-category-type {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .register-game-btn {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .register-game-btn:hover {
+            background: #059669;
+        }
+
+        .register-game-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .tournament-footer {
+            padding: 12px 16px;
+            background: #f9fafb;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .view-details-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .view-details-btn:hover {
+            background: #2563eb;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            <div class="logo-container">
+                <img src="images/logo.svg" alt="AIUB Logo" class="logo-img">
+                <div class="logo-text">
+                    <h1>AIUB</h1>
+                    <p>SPORTS PORTAL</p>
+                </div>
+            </div>
+            <div class="nav-links">
+                <a href="#" class="nav-link">
+                    <span>⚡ Registration</span>
+                </a>
+            </div>
+        </div>
+        <div class="header-right">
+            <span class="welcome-text" id="welcomeText">Welcome</span>
+            <div class="icon-btn" id="adminBtn" style="display: none;" onclick="goToAdmin()">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+            </div>
+            <div class="icon-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                </svg>
+                <span class="notification-badge">1</span>
+            </div>
+            <div class="icon-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+            </div>
+            <div class="icon-btn logout-btn" onclick="logout()">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <button class="sidebar-btn">
+                <div class="sidebar-btn-content">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    </svg>
+                    <span>Dashboard</span>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </button>
+            <button class="sidebar-btn">
+                <div class="sidebar-btn-content">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                    </svg>
+                    <span>Registration</span>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </button>
+            <button class="sidebar-btn">
+                <div class="sidebar-btn-content">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                    </svg>
+                    <span>Featured</span>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </button>
+            <button class="sidebar-btn">
+                <div class="sidebar-btn-content">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
+                    </svg>
+                    <span>Messages</span>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </button>
+            <button class="sidebar-btn">
+                <div class="sidebar-btn-content">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>Bug Report</span>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- Announcement -->
+            <div class="announcement">
+                <p>Dear Students & Faculty members, Welcome to the new AIUB Sports Portal. This platform is designed to make your sports activities easier to access, manage, and enjoy. Stay updated, stay connected, and be a part of AIUB's growing sports community.</p>
+            </div>
+
+            <!-- Alert Box -->
+            <div id="alertBox" class="hidden"></div>
+
+            <!-- Player Info Card -->
+            <div class="player-card">
+                <div class="card-header">
+                    <span></span>
+                    <div id="editButtons">
+                        <button class="edit-btn" onclick="enableEdit()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                            </svg>
+                            Edit Profile
+                        </button>
+                    </div>
+                    <div id="saveButtons" class="hidden">
+                        <button class="save-btn" onclick="saveProfile()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            Save
+                        </button>
+                        <button class="cancel-btn" onclick="cancelEdit()">Cancel</button>
+                    </div>
+                </div>
+
+                <div class="player-info-grid">
+                    <!-- Left Column -->
+                    <div class="info-field">
+                        <label class="info-label">Player Name <span id="nameBadge" class="editable-badge">EDITABLE</span></label>
+                        <input type="text" id="fullName" class="info-input" disabled>
+                        <div id="nameWarning" class="hidden" style="margin-top: 4px; font-size: 12px; color: #dc2626;"></div>
+                    </div>
+
+                    <div class="info-field">
+                        <label class="info-label">Program <span class="locked-badge">LOCKED</span></label>
+                        <input type="text" id="programLevel" class="info-input" disabled>
+                    </div>
+
+                    <div class="info-field">
+                        <label class="info-label">Player ID <span class="locked-badge">LOCKED</span></label>
+                        <input type="text" id="studentId" class="info-input" disabled>
+                    </div>
+
+                    <div class="info-field">
+                        <label class="info-label">Department <span class="locked-badge">LOCKED</span></label>
+                        <input type="text" id="department" class="info-input" disabled>
+                    </div>
+
+                    <div class="info-field">
+                        <label class="info-label">Player Email <span class="locked-badge">LOCKED</span></label>
+                        <input type="text" id="email" class="info-input" disabled>
+                    </div>
+
+                    <div class="info-field">
+                        <label class="info-label">Number <span class="editable-badge">EDITABLE</span></label>
+                        <input type="text" id="phoneNumber" class="info-input" disabled>
+                    </div>
+
+                    <div class="info-field">
+                        <label class="info-label">Gender <span class="locked-badge">LOCKED</span></label>
+                        <input type="text" id="gender" class="info-input" disabled>
+                    </div>
+
+                    <div class="info-field">
+                        <label class="info-label">Blood Group <span class="editable-badge">EDITABLE</span></label>
+                        <select id="bloodGroup" class="info-input" disabled>
+                            <option value="">Select Blood Group</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Warning -->
+            <!-- Registration Message -->
+            <div id="registrationMessage" class="warning-box">
+                <p>Loading available tournaments...</p>
+            </div>
+
+            <!-- Action Button -->
+            <div class="action-button">
+                <button id="registerBtn" class="disabled-btn" onclick="goToRegistration()" disabled>Registration is closed</button>
+            </div>
+
+            <!-- Tournament Registration Modal -->
+            <div id="tournamentModal" class="modal hidden">
+                <div class="modal-content">
+                    <div class="modal-header">Tournament Registration</div>
+                    <div id="modalBody">
+                        <p>Loading tournaments...</p>
+                    </div>
+                    <div class="modal-buttons">
+                        <button class="btn-cancel" onclick="closeTournamentModal()">Close</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game Schedule -->
+            <div class="schedule-card">
+                <div class="schedule-header">
+                    <h2>Game Schedule</h2>
+                </div>
+                <div class="schedule-body">
+                    <div id="scheduleContent">
+                        <div class="schedule-row">
+                            <span class="schedule-day">Today</span>
+                            <span class="schedule-info">No Games Available</span>
+                        </div>
+                        <div class="schedule-row" style="border-top: 1px solid #e5e7eb; padding-top: 12px;">
+                            <span class="schedule-day">Tomorrow</span>
+                            <div class="schedule-info">
+                                <div style="margin-bottom: 8px;">
+                                    <a href="#" style="color: #3b82f6; text-decoration: none;">No Games Available</a>
+                                    <p style="font-size: 12px; color: #6b7280;">TBA</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Welcome Screen -->
+    <div id="welcomeScreen" class="welcome-overlay">
+        <div class="welcome-content">
+            <div class="welcome-icon">🎉</div>
+            <div class="welcome-title">Welcome!</div>
+            <div class="welcome-message" id="welcomeName"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3000/api';
+        let currentUser = null;
+        let originalData = null;
+        let isEditing = false;
+
+        // Load user profile
+        async function loadProfile() {
+            try {
+                const studentId = localStorage.getItem('studentId');
+                const email = localStorage.getItem('userEmail');
+
+                if (!studentId || !email) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                // Check if admin - SIMPLIFIED
+                try {
+                    const adminCheck = await fetch(`${API_URL}/admin/check-admin`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email })
+                    });
+                    const adminData = await adminCheck.json();
+                    console.log('Admin check result:', adminData);
+
+                    if (adminData.isAdmin === true) {
+                        console.log('User is admin!');
+                        document.getElementById('adminBtn').style.display = 'block';
+                        localStorage.setItem('isAdmin', 'true');
+                    }
+                } catch (err) {
+                    console.log('Admin check failed:', err);
+                }
+
+                const response = await fetch(`${API_URL}/auth/profile/${studentId}`);
+                const data = await response.json();
+
+                if (data.success && data.user) {
+                    currentUser = data.user;
+                    originalData = { ...data.user };
+                    displayProfile(data.user);
+                    
+                    // Update welcome text
+                    document.getElementById('welcomeText').textContent = 
+                        `Welcome ${data.user.FULL_NAME || data.user.STUDENT_ID}`;
+                }
+            } catch (error) {
+                console.error('Error loading profile:', error);
+                showAlert('Error loading profile', 'error');
+            }
+        }
+
+        // Display profile data
+        function displayProfile(user) {
+            document.getElementById('studentId').value = user.STUDENT_ID || '';
+            document.getElementById('email').value = user.EMAIL || '';
+            document.getElementById('fullName').value = user.FULL_NAME || '';
+            document.getElementById('gender').value = user.GENDER || '';
+            document.getElementById('phoneNumber').value = user.PHONE_NUMBER || '';
+            document.getElementById('bloodGroup').value = user.BLOOD_GROUP || '';
+            document.getElementById('programLevel').value = user.PROGRAM_LEVEL || '';
+            document.getElementById('department').value = user.DEPARTMENT || '';
+
+            // Update name edit badge
+            updateNameBadge(user.NAME_EDIT_COUNT || 0);
+        }
+
+        // Update name edit badge
+        function updateNameBadge(editCount) {
+            const badge = document.getElementById('nameBadge');
+            const remaining = 3 - editCount;
+
+            if (editCount >= 3) {
+                badge.className = 'locked-badge';
+                badge.textContent = 'LOCKED';
+            } else if (editCount > 0) {
+                badge.className = 'editable-badge';
+                badge.textContent = `${remaining} EDIT${remaining > 1 ? 'S' : ''} LEFT`;
+            } else {
+                badge.className = 'editable-badge';
+                badge.textContent = 'EDITABLE';
+            }
+        }
+
+        // Enable edit mode
+        function enableEdit() {
+            isEditing = true;
+            
+            // Add editing class to show badges
+            document.querySelector('.player-info-grid').classList.add('editing');
+            
+            // Enable editable fields
+            const nameEditCount = currentUser.NAME_EDIT_COUNT || 0;
+            if (nameEditCount < 3) {
+                document.getElementById('fullName').disabled = false;
+            } else {
+                document.getElementById('nameWarning').textContent = '❌ Name edit limit reached!';
+                document.getElementById('nameWarning').classList.remove('hidden');
+            }
+            
+            document.getElementById('phoneNumber').disabled = false;
+            document.getElementById('bloodGroup').disabled = false;
+
+            // Toggle buttons
+            document.getElementById('editButtons').classList.add('hidden');
+            document.getElementById('saveButtons').classList.remove('hidden');
+        }
+
+        // Cancel edit
+        function cancelEdit() {
+            isEditing = false;
+            displayProfile(originalData);
+            
+            // Remove editing class
+            document.querySelector('.player-info-grid').classList.remove('editing');
+            
+            // Disable all inputs
+            document.getElementById('fullName').disabled = true;
+            document.getElementById('phoneNumber').disabled = true;
+            document.getElementById('bloodGroup').disabled = true;
+
+            // Toggle buttons
+            document.getElementById('editButtons').classList.remove('hidden');
+            document.getElementById('saveButtons').classList.add('hidden');
+            document.getElementById('nameWarning').classList.add('hidden');
+        }
+
+        // Save profile
+        async function saveProfile() {
+            try {
+                const studentId = localStorage.getItem('studentId');
+                
+                const formData = {
+                    fullName: document.getElementById('fullName').value.trim(),
+                    gender: currentUser.GENDER,
+                    phoneNumber: document.getElementById('phoneNumber').value.trim(),
+                    bloodGroup: document.getElementById('bloodGroup').value,
+                    programLevel: currentUser.PROGRAM_LEVEL,
+                    department: currentUser.DEPARTMENT,
+                    isFirstTime: false
+                };
+
+                // Validate
+                if (!formData.fullName || !formData.phoneNumber || !formData.bloodGroup) {
+                    showAlert('Please fill in all required fields', 'error');
+                    return;
+                }
+
+                // Show loading
+                const saveBtn = document.querySelector('.save-btn');
+                const originalText = saveBtn.innerHTML;
+                saveBtn.innerHTML = '<span class="spinner"></span> Saving...';
+                saveBtn.disabled = true;
+
+                const response = await fetch(`${API_URL}/auth/profile/${studentId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showAlert('Profile updated successfully!', 'success');
+                    currentUser = data.user;
+                    originalData = { ...data.user };
+                    displayProfile(data.user);
+                    cancelEdit();
+                } else {
+                    showAlert(data.message || 'Failed to update profile', 'error');
+                }
+
+                saveBtn.innerHTML = originalText;
+                saveBtn.disabled = false;
+
+            } catch (error) {
+                console.error('Update error:', error);
+                showAlert('Connection error. Please try again.', 'error');
+            }
+        }
+
+        // Show alert
+        function showAlert(message, type) {
+            const alertBox = document.getElementById('alertBox');
+            alertBox.className = `alert alert-${type}`;
+            alertBox.textContent = message;
+            alertBox.classList.remove('hidden');
+            
+            setTimeout(() => {
+                alertBox.classList.add('hidden');
+            }, 5000);
+        }
+
+        // Logout
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.clear();
+                window.location.href = 'login.html';
+            }
+        }
+
+        function goToAdmin() {
+            window.location.href = 'admin-dashboard.html';
+        }
+
+        // Load available tournaments for registration
+        async function loadAvailableTournaments() {
+            try {
+                const response = await fetch(`${API_URL}/auth/tournaments`);
+                const data = await response.json();
+
+                if (data.success && data.tournaments && data.tournaments.length > 0) {
+                    // Enable registration button
+                    document.getElementById('registerBtn').disabled = false;
+                    document.getElementById('registerBtn').textContent = 'Registration';
+                    document.getElementById('registerBtn').className = 'active-registration-btn'; // Use the red active button class
+
+                    // Update message
+                    document.getElementById('registrationMessage').innerHTML =
+                        '<p>Registration is now open! Click the button to register for tournaments.</p>';
+                } else {
+                    // No tournaments available
+                    document.getElementById('registerBtn').disabled = true;
+                    document.getElementById('registerBtn').textContent = 'Registration Closed';
+                    document.getElementById('registrationMessage').innerHTML =
+                        '<p>No tournaments available for registration at the moment.</p>';
+                }
+            } catch (error) {
+                console.error('Load tournaments error:', error);
+                document.getElementById('registerBtn').disabled = true;
+                document.getElementById('registrationMessage').innerHTML =
+                    '<p>Error loading tournament information. Please try again later.</p>';
+            }
+        }
+
+        // Go to registration page
+        function goToRegistration() {
+            window.location.href = 'registration.html';
+        }
+
+        // View tournament details (placeholder function)
+        function viewTournamentDetails(tournamentId) {
+            // For now, just open the modal to see the tournament
+            openTournamentModal();
+        }
+
+        // Open tournament registration modal
+        async function openTournamentModal() {
+            try {
+                document.getElementById('tournamentModal').classList.remove('hidden');
+
+                const modalBody = document.getElementById('modalBody');
+                modalBody.innerHTML = '<p>Loading tournaments...</p>';
+
+                const response = await fetch(`${API_URL}/auth/tournaments`);
+                const data = await response.json();
+
+                if (data.success && data.tournaments && data.tournaments.length > 0) {
+                    let html = '';
+
+                    data.tournaments.forEach(tournament => {
+                        html += `
+                            <div class="tournament-item">
+                                <div class="tournament-title">${tournament.TITLE}</div>
+                                <div class="tournament-deadline">Registration Deadline: ${tournament.DEADLINE}</div>
+                                <button class="edit-btn" style="margin-top: 10px;" onclick="loadTournamentGames(${tournament.ID})">View Games</button>
+                                <div id="games-${tournament.ID}" class="game-list" style="display: none;"></div>
+                            </div>
+                        `;
+                    });
+
+                    modalBody.innerHTML = html;
+                } else {
+                    modalBody.innerHTML = '<p>No tournaments available for registration.</p>';
+                }
+            } catch (error) {
+                console.error('Open tournament modal error:', error);
+                document.getElementById('modalBody').innerHTML = '<p>Error loading tournaments. Please try again.</p>';
+            }
+        }
+
+        // Load games for a specific tournament
+        async function loadTournamentGames(tournamentId) {
+            try {
+                const gamesContainer = document.getElementById(`games-${tournamentId}`);
+
+                // Show loading
+                gamesContainer.style.display = 'block';
+                gamesContainer.innerHTML = '<p>Loading games...</p>';
+
+                const response = await fetch(`${API_URL}/auth/tournaments/${tournamentId}/games`);
+                const data = await response.json();
+
+                if (data.success && data.games && data.games.length > 0) {
+                    let html = '<h3 style="margin: 10px 0 15px 0;">Available Games:</h3><div>';
+
+                    data.games.forEach(game => {
+                        html += `
+                            <div class="game-item">
+                                <div class="game-info">
+                                    <div class="game-name">${game.GAME_NAME}</div>
+                                    <div class="game-category">${game.CATEGORY} • ${game.GAME_TYPE} • ${game.FEE_PER_PERSON} BDT</div>
+                                </div>
+                                <button class="register-game-btn" onclick="registerForGame(${game.ID})">Register</button>
+                            </div>
+                        `;
+                    });
+
+                    html += '</div>';
+                    gamesContainer.innerHTML = html;
+                } else {
+                    gamesContainer.innerHTML = '<p>No games available in this tournament.</p>';
+                }
+            } catch (error) {
+                console.error('Load tournament games error:', error);
+                document.getElementById(`games-${tournamentId}`).innerHTML = '<p>Error loading games.</p>';
+            }
+        }
+
+        // Register for a specific game
+        async function registerForGame(gameId) {
+            try {
+                const studentId = localStorage.getItem('studentId');
+
+                const response = await fetch(`${API_URL}/auth/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ studentId, gameId })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showAlert('Successfully registered for the game!', 'success');
+                    closeTournamentModal();
+                } else {
+                    showAlert(data.message || 'Registration failed. Please try again.', 'error');
+                }
+            } catch (error) {
+                console.error('Register for game error:', error);
+                showAlert('Connection error. Please try again.', 'error');
+            }
+        }
+
+        // Close tournament modal
+        function closeTournamentModal() {
+            document.getElementById('tournamentModal').classList.add('hidden');
+        }
+
+        // Check authentication
+        window.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('isAuthenticated') !== 'true') {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            loadProfile();
+            loadAvailableTournaments(); // Load available tournaments when page loads
+
+            // Check if this is first login after profile completion
+            const justCompleted = sessionStorage.getItem('profileJustCompleted');
+            if (justCompleted) {
+                sessionStorage.removeItem('profileJustCompleted');
+                const userName = localStorage.getItem('userName') || 'Player';
+                document.getElementById('welcomeName').textContent = userName;
+                document.getElementById('welcomeScreen').style.display = 'flex';
+
+                setTimeout(() => {
+                    document.getElementById('welcomeScreen').style.display = 'none';
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>

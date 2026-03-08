@@ -1,60 +1,176 @@
 ﻿# AIUB Sports Portal – Version 1.1
 
-Full-stack web application for **AIUB Sports Management**.
+Full-stack web application for **AIUB Sports Management**.  
+This system allows **students to register for sports tournaments, manage
+profiles, and participate in events**, while **administrators manage
+tournaments, games, and registrations**.
 
-This README is written so that **anyone can clone the repository and run the project step by step**, even on a **modern 64-bit Windows system using Oracle 10g**.
-
----
-
-## Tech Stack
-- **Frontend:** HTML, CSS, JavaScript
-- **Backend:** Node.js, Express
-- **Database:** Oracle 10g (PL/SQL)
-- **Authentication:** Microsoft Azure AD (OAuth)
+The project is designed so that **anyone can clone the repository and run it
+step-by-step**, even on a **modern 64-bit Windows system using Oracle 10g**.
 
 ---
 
-## Project Structure
-```
-aiub-sports-portal/
-├── backend/          # Node.js backend
-├── frontend/         # HTML/CSS/JS frontend
-├── database/         # Database dump & SQL scripts
-│   ├── webuser_backup.dmp
-│   └── schema.sql
-├── docs/
-└── README.md
-```
+# Project Features
+
+### Student Features
+
+- Microsoft Azure AD Login (AIUB Email)
+- Profile Management
+- Sports Tournament Registration
+- Game Participation
+- Registration Status Tracking
+
+### Admin Features
+
+- Tournament Creation & Management
+- Game Management (Solo / Duo / Custom)
+- Player Registration Monitoring
+- Payment Status Tracking
+- Tournament Status Control
 
 ---
 
-## Prerequisites
-- Node.js (v16+ recommended)
+# Tech Stack
+
+### Frontend
+
+- HTML
+- CSS
+- JavaScript
+
+### Backend
+
+- Node.js
+- Express.js
+
+### Database
+
+- Oracle 10g
+- PL/SQL
+- Sequences & Triggers
+- Stored Procedures
+
+### Authentication
+
+- Microsoft Azure Active Directory (OAuth)
+
+---
+
+# Project Structure
+
+aiub-sports-portal/ │ ├── backend/ # Node.js backend API │ ├── frontend/ # HTML
+/ CSS / JavaScript frontend │ ├── database/ # Database scripts and dump │ ├──
+webuser_backup.dmp │ └── schema.sql │ ├── docs/ # Project documentation │ └──
+README.md
+
+---
+
+# Database Schema Overview
+
+The database includes several main modules:
+
+### Users
+
+Stores AIUB student information.
+
+Fields include:
+
+- student_id
+- email
+- full_name
+- gender
+- profile completion
+- login tracking
+
+Includes:
+
+- Email validation function
+- Profile update procedure
+- Name edit restriction (max 3 times)
+
+---
+
+### Admins
+
+Stores system administrators.
+
+Fields:
+
+- admin_id
+- email
+- full_name
+- created_at
+
+Admin accounts are responsible for creating tournaments.
+
+---
+
+### Tournaments
+
+Stores tournament information.
+
+Fields:
+
+- title
+- photo_url
+- registration_deadline
+- status (ACTIVE / CLOSED / COMPLETED)
+- created_by (admin)
+
+---
+
+### Tournament Games
+
+Each tournament contains multiple games.
+
+Fields:
+
+- game_name
+- category (Male / Female / Mix)
+- game_type (Solo / Duo / Custom)
+- fee_per_person
+
+---
+
+### Game Registrations
+
+Stores student participation in games.
+
+Fields:
+
+- user_id
+- game_id
+- registration_date
+- payment_status (PENDING / PAID / FAILED)
+
+---
+
+# Prerequisites
+
+Before running the project install:
+
+- Node.js (v16 or higher)
 - npm
-- Windows OS
 - Git
+- Windows OS
+- Oracle 10g XE
 
 ---
 
-## Step 1: Clone the Repository
+# Step 1: Clone the Repository
+
 ```bash
 git clone https://github.com/mrxvaau/AIUB-SPORTS-PORTAL
 cd aiub-sports-portal
-```
+Step 2: Backend Environment Configuration (.env)
 
----
+⚠️ Do NOT commit the .env file to GitHub
 
-## Step 2: Backend Environment Configuration (.env)
+Create .env inside backend folder:
 
-⚠️ **Do NOT commit the `.env` file to GitHub**
-
-```bash
 cd backend
 type nul > .env
-```
-
-### `.env` Placeholder Configuration
-```env
+.env Example Configuration
 PORT=3000
 NODE_ENV=development
 
@@ -76,119 +192,102 @@ AZURE_CLIENT_SECRET=YOUR_CLIENT_SECRET
 AZURE_REDIRECT_URI=http://localhost:3001/callback
 
 ALLOWED_EMAIL_DOMAIN=@student.aiub.edu
-```
+Azure OAuth Setup
 
----
+Go to Azure Portal
 
-## Azure OAuth Setup
-1. Azure Portal → Azure Active Directory
-2. App registrations → New registration
-3. Copy Tenant ID & Client ID
-4. Certificates & Secrets → Create Client Secret
-5. Add redirect URI:
-```
+Open Azure Active Directory
+
+Click App registrations
+
+Select New Registration
+
+Copy:
+
+Tenant ID
+
+Client ID
+
+Go to Certificates & Secrets
+
+Create Client Secret
+
+Add Redirect URI:
+
 http://localhost:3001/callback
-```
+Step 3: Install Oracle 10g (Manual Download)
 
----
+GitHub does not allow .exe files.
 
-## Step 3: Install Oracle 10g (Manual Download)
+Download Oracle 10g XE:
 
-GitHub does not allow `.exe` files.
+https://www.dropbox.com/scl/fo/japz568rim4cc9y48xhze/AHUjHYykGFIsMpW-W5kfPes
 
-**Download Oracle 10g (XE):**
-https://www.dropbox.com/scl/fo/japz568rim4cc9y48xhze/AHUjHYykGFIsMpW-W5kfPes?rlkey=gr7kb9h5yd6qtn7wkyvhqoov8&e=1&dl=0
+Installation steps:
 
-1. Extract archive
-2. Run `setup.exe`
-3. Install using default XE settings
+Extract archive
 
-Restart system after installation.
+Run setup.exe
 
----
+Install using default XE settings
 
-## Step 4: Oracle Instant Client (Required)
+Restart system after installation
 
-**Download (Official Oracle):**
+Step 4: Install Oracle Instant Client
+
+Download from Oracle:
+
 https://download.oracle.com/otn_software/nt/instantclient/2326000/instantclient-basic-windows.x64-23.26.0.0.0.zip
 
-1. Extract ZIP
-2. Move folder to:
-```
+Steps:
+
+Extract ZIP
+
+Move folder to:
+
 C:\oraclexe\instantclient_23_0
-```
+Step 5: Configure Environment Variables
 
----
+Add to PATH:
 
-## Step 5: Environment Variables
-
-Add to **PATH**:
-```
 C:\oraclexe\instantclient_23_0
-```
 
 Create system variables:
 
-| Name | Value |
-|-----|------|
-| ORACLE_HOME | C:\oraclexe |
-| TNS_ADMIN | C:\oraclexe\instantclient_23_0 |
+Variable	Value
+ORACLE_HOME	C:\oraclexe
+TNS_ADMIN	C:\oraclexe\instantclient_23_0
 
-Restart system.
+Restart your system.
 
----
+Step 6: Database Setup
 
-## Step 6: Database Setup
+Open SQLPlus:
 
-```bash
 sqlplus / as sysdba
-```
 
-```sql
+Create database user:
+
 CREATE USER webuser IDENTIFIED BY webpassword;
 GRANT CONNECT, RESOURCE, DBA TO webuser;
-```
 
-Import dump:
-```bash
+Import database dump:
+
 cd database
 imp webuser/webpassword@XE file=webuser_backup.dmp full=y
-```
-
----
-
-## Step 7: Run Backend
-```bash
+Step 7: Run Backend
 cd backend
 npm install
 npm run start
-```
 
-Backend URL:
-```
+Backend will run at:
+
 http://localhost:3000
-```
-
----
-
-## Step 8: Run Frontend
-```bash
+Step 8: Run Frontend
 cd frontend
 npx http-server -p 3001
-```
 
-Frontend URL:
-```
+Frontend will run at:
+
 http://localhost:3001
 ```
-
----
-
-## Notes
-- Never commit `.env`
-- Windows-only Oracle setup
-- Restart required after Oracle setup
-
----
-
-✅ Project will run successfully if all steps are followed.
